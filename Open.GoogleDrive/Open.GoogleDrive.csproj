@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Open.Google" Version="1.0.0-CI00000" />
-    <PackageReference Include="Open.IO" Version="1.0.0-CI00005" />
+    <PackageReference Include="Open.Google" Version="1.0.0-CI00001" />
   </ItemGroup>
 
 </Project>
