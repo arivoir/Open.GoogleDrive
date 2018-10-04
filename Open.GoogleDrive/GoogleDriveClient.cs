@@ -252,7 +252,7 @@ namespace Open.GoogleDrive
             return new Uri(string.Format(ApiServiceUri + "files/{0}/copy", fileId), UriKind.Absolute);
         }
 
-        public new HttpClient GetClient()
+        public HttpClient GetClient()
         {
             HttpClient client;
             client = new HttpClient(new GoogleDriveMessageHandler());
