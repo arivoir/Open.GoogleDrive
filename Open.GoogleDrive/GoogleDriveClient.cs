@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -82,7 +83,7 @@ namespace Open.GoogleDrive
         {
             var client = GetClient();
             var uri = BuildUri(ApiServiceUri + "files", fields: fields);
-            var content = new StringContent(file.SerializeJson());
+            var content = new StringContent(JsonSerializer.Serialize(file));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = await client.PostAsync(uri, content, cancellationToken);
             if (response.IsSuccessStatusCode)
@@ -99,7 +100,7 @@ namespace Open.GoogleDrive
         {
             var uri = BuildUri(ApiServiceUploadUri + "files", fields: fields, uploadType: "multipart");
             var client = GetClient();
-            var text = file.SerializeJson<File>();
+            var text = JsonSerializer.Serialize(file);
             var content = new MultipartContent("related");
             var textContent = new StringContent(text);
             textContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -124,7 +125,7 @@ namespace Open.GoogleDrive
             var client = GetClient();
             client.DefaultRequestHeaders.Add("X-Upload-Content-Type", file.MimeType);
             client.DefaultRequestHeaders.Add("X-Upload-Content-Length", fileLength.ToString());
-            var content = new StringContent(file.SerializeJson());
+            var content = new StringContent(JsonSerializer.Serialize(file));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = await client.PostAsync(uri, content, cancellationToken);
             if (response.IsSuccessStatusCode)
@@ -181,7 +182,7 @@ namespace Open.GoogleDrive
             var client = GetClient();
             var uri = BuildUri(GetFileUri(fileId).AbsoluteUri, fields: fields, addParents: addParents, removeParents: removeParents);
             var request = new HttpRequestMessage(new HttpMethod("PATCH"), uri);
-            var content = new StringContent((file ?? new File()).SerializeJson());
+            var content = new StringContent(JsonSerializer.Serialize(file ?? new File()));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             request.Content = content;
             var response = await client.SendAsync(request, cancellationToken);
@@ -199,7 +200,7 @@ namespace Open.GoogleDrive
         {
             var client = GetClient();
             var uri = BuildUri(GetCopyFileUri(fileId).AbsoluteUri, fields: fields);
-            var content = new StringContent(file.SerializeJson());
+            var content = new StringContent(JsonSerializer.Serialize(file));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = await client.PostAsync(uri, content, cancellationToken);
             if (response.IsSuccessStatusCode)

@@ -1,15 +1,15 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Open.GoogleDrive
+namespace Open.GoogleDrive;
+
+public class Response
 {
-    [DataContract]
-    public class Response
-    {
-        [DataMember(Name = "kind")]
-        public string Kind { get; set; }
-        [DataMember(Name = "nextPageToken")]
-        public string NextPageToken { get; set; }
-        [DataMember(Name = "files")]
-        public File[] Items { get; set; }
-    }
+    [JsonPropertyName("kind")]
+    public string Kind { get; set; }
+
+    [JsonPropertyName("nextPageToken")]
+    public string NextPageToken { get; set; }
+
+    [JsonPropertyName("files")]
+    public File[] Items { get; set; }
 }

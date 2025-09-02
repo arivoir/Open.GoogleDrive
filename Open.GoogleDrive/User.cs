@@ -1,48 +1,53 @@
 ﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
-namespace Open.GoogleDrive
+namespace Open.GoogleDrive;
+
+public class About
 {
-    [DataContract]
-    public class About
-    {
-        [DataMember(Name = "user")]
-        public User User { get; set; }
-        [DataMember(Name = "storageQuota")]
-        public StorageQuota StorageQuota { get; set; }
-        [DataMember(Name = "maxUploadSize")]
-        public long MaxUploadSize { get; set; }
-    }
+    [JsonPropertyName("user")]
+    public User User { get; set; }
 
-    [DataContract]
-    public class User
-    {
-        [DataMember(Name = "displayName")]
-        public string DisplayName { get; set; }
-        [DataMember(Name = "picture")]
-        public Picture Picture { get; set; }
-        [DataMember(Name = "isAuthenticatedUser")]
-        public bool IsAuthenticatedUser { get; set; }
-        [DataMember(Name = "permissionId")]
-        public string PermissionId { get; set; }
-    }
+    [JsonPropertyName("storageQuota")]
+    public StorageQuota StorageQuota { get; set; }
 
-    [DataContract]
-    public class Picture
-    {
-        [DataMember(Name = "url")]
-        public string Url { get; set; }
-    }
+    [JsonPropertyName("maxUploadSize")]
+    public long MaxUploadSize { get; set; }
+}
 
-    public class StorageQuota
-    {
+public class User
+{
+    [JsonPropertyName("displayName")]
+    public string DisplayName { get; set; }
 
-        [DataMember(Name = "limit")]
-        public long Limit { get; set; }
-        [DataMember(Name = "usage")]
-        public long Usage { get; set; }
-        [DataMember(Name = "usageInDrive")]
-        public long UsageInDrive { get; set; }
-        [DataMember(Name = "usageInDriveTrash")]
-        public long UsageInDriveTrash { get; set; }
-    }
+    [JsonPropertyName("picture")]
+    public Picture Picture { get; set; }
+
+    [JsonPropertyName("isAuthenticatedUser")]
+    public bool IsAuthenticatedUser { get; set; }
+
+    [JsonPropertyName("permissionId")]
+    public string PermissionId { get; set; }
+}
+
+public class Picture
+{
+    [JsonPropertyName("url")]
+    public string Url { get; set; }
+}
+
+public class StorageQuota
+{
+
+    [JsonPropertyName("limit")]
+    public long Limit { get; set; }
+
+    [JsonPropertyName("usage")]
+    public long Usage { get; set; }
+
+    [JsonPropertyName("usageInDrive")]
+    public long UsageInDrive { get; set; }
+
+    [JsonPropertyName("usageInDriveTrash")]
+    public long UsageInDriveTrash { get; set; }
 }

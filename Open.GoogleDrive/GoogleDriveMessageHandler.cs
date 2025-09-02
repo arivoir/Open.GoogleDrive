@@ -6,31 +6,30 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Open.GoogleDrive
-{
-    public class GoogleDriveMessageHandler : RetryMessageHandler
-    {
-        private static Random _rand = new Random();
+namespace Open.GoogleDrive;
 
-        protected override async Task<TimeSpan?> ShouldRetry(HttpResponseMessage response, int retries, CancellationToken cancellationToken)
+public class GoogleDriveMessageHandler : RetryMessageHandler
+{
+    private static Random _rand = new Random();
+
+    protected override async Task<TimeSpan?> ShouldRetry(HttpResponseMessage response, int retries, CancellationToken cancellationToken)
+    {
+        if (response.StatusCode == HttpStatusCode.Forbidden)
         {
-            if (response.StatusCode == HttpStatusCode.Forbidden)
+            var error = await response.Content.ReadJsonAsync<ErrorResponse>();
+            if (error.Error != null && error.Error.Errors != null)
             {
-                var error = await response.Content.ReadJsonAsync<ErrorResponse>();
-                if (error.Error != null && error.Error.Errors != null)
+                var e = error.Error.Errors.FirstOrDefault();
+                if (e != null)
                 {
-                    var e = error.Error.Errors.FirstOrDefault();
-                    if (e != null)
+                    if (e.Reason == "rateLimitExceeded" || e.Reason == "userRateLimitExceeded")
                     {
-                        if (e.Reason == "rateLimitExceeded" || e.Reason == "userRateLimitExceeded")
-                        {
-                            var timeSpan = Math.Pow(2, retries) * 1000 + _rand.Next(0, 1000);
-                            return TimeSpan.FromMilliseconds(timeSpan);
-                        }
+                        var timeSpan = Math.Pow(2, retries) * 1000 + _rand.Next(0, 1000);
+                        return TimeSpan.FromMilliseconds(timeSpan);
                     }
                 }
             }
-            return null;
         }
+        return null;
     }
 }

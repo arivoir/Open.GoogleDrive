@@ -1,19 +1,26 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Open.GoogleDrive
+namespace Open.GoogleDrive;
+
+public class Parent
 {
-    [DataContract]
-    public class Parent
-    {
-        [DataMember(Name = "kind", EmitDefaultValue = false)]
-        public string Kind { get; set; }
-        [DataMember(Name = "id", EmitDefaultValue = false)]
-        public string Id { get; set; }
-        [DataMember(Name = "selfLink", EmitDefaultValue = false)]
-        public string SelfLink { get; set; }
-        [DataMember(Name = "parentLink", EmitDefaultValue = false)]
-        public string ParentLink { get; set; }
-        [DataMember(Name = "isRoot", EmitDefaultValue = false)]
-        public bool IsRoot { get; set; }
-    }
+    [JsonPropertyName("kind")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string Kind { get; set; }
+
+    [JsonPropertyName("id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string Id { get; set; }
+
+    [JsonPropertyName("selfLink")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string SelfLink { get; set; }
+
+    [JsonPropertyName("parentLink")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string ParentLink { get; set; }
+
+    [JsonPropertyName("isRoot")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool IsRoot { get; set; }
 }

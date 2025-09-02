@@ -1,15 +1,15 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Open.GoogleDrive
+namespace Open.GoogleDrive;
+
+public class Location
 {
-    [DataContract]
-    public class Location
-    {
-        [DataMember(Name = "latitude")]
-        public double Latitude { get; set; }
-        [DataMember(Name = "longitude")]
-        public double Longitude { get; set; }
-        [DataMember(Name = "altitude")]
-        public double Altitude { get; set; }
-    }
+    [JsonPropertyName("latitude")]
+    public double Latitude { get; set; }
+
+    [JsonPropertyName("longitude")]
+    public double Longitude { get; set; }
+
+    [JsonPropertyName("altitude")]
+    public double Altitude { get; set; }
 }

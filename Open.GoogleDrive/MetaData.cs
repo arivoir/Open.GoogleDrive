@@ -1,18 +1,19 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
+namespace Open.GoogleDrive;
 
-namespace Open.GoogleDrive
+public class ImageMetadata
 {
-    [DataContract]
-    public class ImageMetadata
-    {
-        [DataMember(Name = "width")]
-        public int Width { get; set; }
-        [DataMember(Name = "height")]
-        public int Height { get; set; }
-        [DataMember(Name = "rotation")]
-        public int Rotation { get; set; }
-        [DataMember(Name = "location")]
-        public Location Location { get; set; }
-    }
+    [JsonPropertyName("width")]
+    public int Width { get; set; }
+
+    [JsonPropertyName("height")]
+    public int Height { get; set; }
+
+    [JsonPropertyName("rotation")]
+    public int Rotation { get; set; }
+
+    [JsonPropertyName("location")]
+    public Location Location { get; set; }
 }
+
